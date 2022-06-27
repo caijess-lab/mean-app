@@ -1,13 +1,20 @@
-/* const http = require('http');
 
-const server = http.createServer((req, res) => {
-    res.end('Voilà la réponse du serveur !');
-});
+/*=============================================
+=            First try connection            =
+=============================================*/
+// const http = require('http');
 
-server.listen(process.env.PORT || 3000); */
+// const server = http.createServer((req, res) => {
+//     res.end('Voilà la réponse du serveur !');
+// });
+
+// server.listen(process.env.PORT || 3000);
+
+
+/*=====  End of First try connection  ======*/
 
 const http = require('http');
-const app = require('./app');
+const app = require('./app_thing');
 
 const normalizePort = val => {
     const port = parseInt(val, 10);

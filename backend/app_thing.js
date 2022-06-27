@@ -5,15 +5,15 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 // import du modèle Mongoose
 const Thing = require('./models/thing');
+// notre application
+const app = express(); // express() permet de créer l'application express
 
 mongoose.connect('mongodb+srv://j_admin:45GTtid4s9GiSk@cluster0.5rv01.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+  .catch((err) => console.log('Connexion à MongoDB échouée !' + err));
 
-// notre application
-const app = express(); // express() permet de créer l'application express
 
 // app.use(express.json());
 /* --------------------------------------- */
@@ -51,6 +51,7 @@ app.post('/api/stuff', (req, res, next) => {
     const thing = new Thing({
         ...req.body
     });
+    console.log(thing);
     // enregistrement de thing dans la BD
     thing.save()
     .then(() => res.status(201).json({ message: 'Objet enregistré !'}))

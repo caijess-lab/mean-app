@@ -5,15 +5,15 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 // import du modèle Mongoose
 const Product = require('./models/product');
+// notre application
+const app = express(); // express() permet de créer l'application express
 
 mongoose.connect('mongodb+srv://j_admin:45GTtid4s9GiSk@cluster0.5rv01.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+  .catch((error) => console.log('Connexion à MongoDB échouée ! ' + error));
 
-// notre application
-const app = express(); // express() permet de créer l'application express
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -25,12 +25,9 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.post('/api/products', (req, res, next) => {
-    // delete req.body._id;
+    delete req.body._id;
     const product = new Product({
-        name: "test",
-    description: "description",
-    price: 90,
-    inStock: true
+        ...req.body
     });
     console.log(product);
     // enregistrement du product dans la BD
@@ -54,13 +51,13 @@ app.delete('/api/products/:id', (req, res, next) => {
 
 app.get('/api/products/:id', (req, res, next) => {
     Product.findOne({_id: req.params.id})
-    .then(product => res.status(200).json({product: product}))
+    .then(product => res.status(200).json(product))
     .catch(error => res.status(400).json({ error }));
 });
 
 app.get('/api/products', (req, res, next) => {
     Product.find()
-    .then(products => res.status(200).json({products: [products]}))
+    .then(products => res.status(200).json(products))
     .catch(error => res.status(400).json({ error }));
 });
 
