@@ -8,7 +8,7 @@ const Thing = require('./models/thing');
 // notre application
 const app = express(); // express() permet de créer l'application express
 
-mongoose.connect('mongodb+srv://j_admin:45GTtid4s9GiSk@cluster0.5rv01.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://j_admin:'+process.env.MONGOPASSWORD+'@cluster0.5rv01.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
